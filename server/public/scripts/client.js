@@ -15,8 +15,21 @@ function submitTask(event) {
 
   const taskInput = $("#js-input-list").val();
 
-  console.log(taskInput);
+  completedTask(taskInput);
+
   clearTask();
+}
+
+function completedTask(task) {
+  const dataForServer = {
+    task: task,
+  };
+
+  $.ajax({
+    type: POST,
+    url: "/task",
+    data: dataForServer,
+  });
 }
 
 function clearTask() {
@@ -29,18 +42,3 @@ function clearTask() {
 // };
 
 // console.log(taskToBeCompleted);
-
-// $.ajax({
-//   method: "POST",
-//   url: "/todo",
-//   data: taskToDo,
-// })
-//   .then(function (response) {
-//     console.log(response);
-//     getKoalas();
-//   })
-//   .catch(function (error) {
-//     console.log("error in koala post", error);
-//   });
-
-// render to DOM
