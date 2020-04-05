@@ -123,5 +123,5 @@ function saveTask(newTask) {
 }
 
 function clearTask() {
-  $("#js-input-list").val("");
+  $("#js-input-list").empty();
 }

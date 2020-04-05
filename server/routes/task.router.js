@@ -49,7 +49,7 @@ toDoRouter.put("/:id", (req, res) => {
   pool
     .query(queryText, [newTaskData.taskCompleted, taskId])
     .then((responseDb) => {
-      console.log(responseFromDb);
+      console.log(responseDb);
       res.sendStatus(200); // OK
     })
     .catch((err) => {
