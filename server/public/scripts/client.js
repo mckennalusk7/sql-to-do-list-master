@@ -95,6 +95,33 @@ function updateToDoList() {
     });
 }
 
+// save entered task
+function saveTask(newTask) {
+  console.log("in saveTask", newTask);
+}
+
+// render to DOM
+function renderTask(taskArray) {
+  $("#js-submit-task").empty();
+  for (let task of taskArray) {
+    let taskCompleted = `<button class="js-submit-task" data-id="${task.id}">Submit Task</button>`;
+    if (task.taskCompleted === true) {
+      taskCompleted = `<button class="js-submit-task hide" data-id="${task.id}">Submit Task</button>`;
+    }
+    $("#js-submit-task").append(`
+      <tr>
+        <td>${task.task}</td>
+        <td>${task.taskCompleted}</td>
+        <td>${taskCompleted}</td>
+        <td><button class="js-btn-delete-task" data-id="${task.id}">Delete</button></td>
+      </tr>
+    `);
+  }
+}
+function saveTask(newTask) {
+  console.log("in saveTask", newTask);
+}
+
 function clearTask() {
   $("#js-input-list").val("");
 }

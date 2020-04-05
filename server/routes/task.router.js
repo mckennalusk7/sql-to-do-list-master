@@ -74,9 +74,4 @@ toDoRouter.delete("/:id", (req, res) => {
     });
 });
 
-// save entered task
-function saveTask(newTask) {
-  console.log("in saveTask", newTask);
-}
-
 module.exports = toDoRouter;
