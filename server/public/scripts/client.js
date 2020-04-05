@@ -1,35 +1,69 @@
 $(document).ready(init);
 
+let task = [];
+
 function init() {
-  console.log("LETS GO!");
+  $("#js-submit-task").on("submit", submitTask);
+  // $("#js-task-completion").on("click", ".js-btn-delete-task", deleteTask);
+  // $(".js-task-completion").on("click", ".js-btn-completed-task", completedTask);
+  getTask();
 }
-
-// let task = [];
-
-$("#js-submit-task").on("submit", submitTask);
-// $("#js-task-completion").on("click", ".js-btn-delete-task", deleteTask);
-// $(".js-task-completion").on("click", ".js-btn-completed-task", completedTask);
 
 function submitTask(event) {
   event.preventDefault();
 
   const taskInput = $("#js-input-list").val();
 
-  completedTask(taskInput);
+  postTask(taskInput);
 
   clearTask();
 }
 
-function completedTask(task) {
+function postTask(task) {
   const dataForServer = {
     task: task,
   };
 
   $.ajax({
-    type: POST,
+    type: "POST",
     url: "/task",
     data: dataForServer,
-  });
+  })
+    .then((response) => {
+      getTask();
+    })
+    .catch((err) => {
+      console.warn(err);
+    });
+}
+
+function getTask() {
+  $.ajax({
+    type: "GET",
+    url: "/task",
+  })
+    .then((response) => {
+      task = response;
+      renderTask();
+    })
+    .catch((err) => {
+      console.warn(err);
+    });
+}
+
+function deleteTask() {
+  const taskId = $(this).parent().data("id");
+
+  $.ajax({
+    type: "DELETE",
+    url: `/cat/${taskId}`,
+  })
+    .then((response) => {
+      getTask();
+    })
+    .catch((err) => {
+      console.warn(err);
+    });
 }
 
 function clearTask() {
