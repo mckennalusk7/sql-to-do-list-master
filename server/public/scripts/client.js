@@ -4,8 +4,12 @@ let task = [];
 
 function init() {
   $("#js-submit-task").on("submit", submitTask);
-  // $("#js-task-completion").on("click", ".js-btn-delete-task", deleteTask);
-  // $(".js-task-completion").on("click", ".js-btn-completed-task", completedTask);
+  $("#js-task-completion").on("click", ".js-btn-delete-task", deleteTask);
+  $(".js-task-completion").on(
+    "click",
+    ".js-btn-completed-task",
+    updateToDoList
+  );
   getTask();
 }
 
@@ -94,10 +98,3 @@ function updateToDoList() {
 function clearTask() {
   $("#js-input-list").val("");
 }
-
-// let taskToBeCompleted = {
-//   task: $("#taskIn").val(),
-//   taskCompleted: $("#taskCompletedIn").val(),
-// };
-
-// console.log(taskToBeCompleted);
