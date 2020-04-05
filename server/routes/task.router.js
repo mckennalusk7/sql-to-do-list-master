@@ -6,7 +6,7 @@ const pool = require("../modules/pool");
 toDoRouter.post("/", (req, res) => {
   const dataSentFromClient = req.body;
 
-  const queryText = `INSERT INTO "weekend-to-do-app" ("task", "task completed") VALUES ($1);`;
+  const queryText = `INSERT INTO "todo" ("task", "task completed") VALUES ($1);`;
 
   pool
     .query(queryText, [
@@ -25,7 +25,7 @@ toDoRouter.post("/", (req, res) => {
 
 // GET
 toDoRouter.get("/", (req, res) => {
-  const queryText = `SELECT * FROM "weekend-to-do-app" ORDER BY "id";`;
+  const queryText = `SELECT * FROM "todo" ORDER BY "id";`;
 
   pool
     .query(queryText)
@@ -44,7 +44,7 @@ toDoRouter.get("/", (req, res) => {
 toDoRouter.put("/:id", (req, res) => {
   const taskId = req.params.id;
   const newTaskData = req.body;
-  const queryText = `UPDATE: "weekend-to-do-app" SET "completed"=$1 WHERE id=$2;`;
+  const queryText = `UPDATE: "todo" SET "completed"=$1 WHERE id=$2;`;
 
   pool
     .query(queryText, [newTaskData.taskCompleted, taskId])
@@ -60,7 +60,7 @@ toDoRouter.put("/:id", (req, res) => {
 
 // DELETE
 toDoRouter.delete("/:id", (req, res) => {
-  const queryText = `DELETE FROM "weekend-to-do-app" WHERE id=$1;`;
+  const queryText = `DELETE FROM "todo" WHERE id=$1;`;
 
   pool
     .query(queryText, [req.params.id])
