@@ -1,25 +1,60 @@
 const express = require("express");
-const router = express.Router();
+const toDoRouter = express.Router();
 const pool = require("../modules/pool");
 
-router.post("/", (req, res) => {
-  const querySting = `INSERT INTO "weekend-to-do-app" ("task") VALUES ($1);`;
+// POST
+toDoRouter.post("/", (req, res) => {
+  const dataSentFromClient = req.body;
+
+  const queryText = `INSERT INTO "weekend-to-do-app" ("task", "task completed") VALUES ($1);`;
 
   pool
-    .query(queryString, [req.body.task])
-    .then((response) => {
+    .query(queryText, [
+      dataSentFromClient.task,
+      dataSentFromClient.taskCompleted,
+    ])
+    .then((responseDb) => {
+      console.log(responseDb);
       res.sendStatus(201);
     })
     .catch((err) => {
       console.warn(err);
-      res.send(500);
+      res.sendStatus(500);
     });
 });
 
-router.get("/", (req, res) => {});
+// GET
+toDoRouter.get("/", (req, res) => {
+  const queryText = `SELECT * FROM "weekend-to-do-app" ORDER BY "id";`;
 
-router.put("/", (req, res) => {});
+  pool
+    .query(queryText)
+    .then((responseDB) => {
+      const dbRows = responseDB.rows;
+      console.log(dbRows);
+      res.send(dbRows);
+    })
+    .catch((err) => {
+      console.log("ERROR: NOT HERE", err);
+      res.sendStatus(500);
+    });
+});
 
-router.delete("/", (req, res) => {});
+// PUT
+toDoRouter.put("/:id", (req, res) => {
+    const taskId = req.params.id;
+    const newTaskData = req.body;
+    const queryText = `UPDATE: "todo" SET "completed"=$1 WHERE id=$2;`;
 
-module.exports = router;
+pool.query(queryText, [newTaskData.taskCompleted, taskId])
+.then((responseDb) => {
+    console.log(responseFromDb);
+    res.sendStatus(200); // OK
+})
+.catch((err) => {
+    console.log(`Error in completion: ${err}`);
+    res.sendStatus(500); //internal server error
+})
+// router.delete("/", (req, res) => {});
+
+module.exports = toDoRouter;

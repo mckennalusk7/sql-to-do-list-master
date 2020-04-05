@@ -15,7 +15,7 @@ function submitTask(event) {
   const taskInput = $("#js-input-list").val();
 
   postTask(taskInput);
-
+  //  clear input values
   clearTask();
 }
 
@@ -25,11 +25,12 @@ function postTask(task) {
   };
 
   $.ajax({
-    type: "POST",
-    url: "/task",
+    method: "POST",
+    url: "/todo",
     data: dataForServer,
   })
     .then((response) => {
+      "UPDATE: ", response;
       getTask();
     })
     .catch((err) => {
@@ -37,13 +38,15 @@ function postTask(task) {
     });
 }
 
+// call to server to get completed tasks
 function getTask() {
   $.ajax({
-    type: "GET",
-    url: "/task",
+    method: "GET",
+    url: "/todo",
   })
     .then((response) => {
       task = response;
+      console.log("array of tasks completed", task);
       renderTask();
     })
     .catch((err) => {
@@ -55,10 +58,32 @@ function deleteTask() {
   const taskId = $(this).parent().data("id");
 
   $.ajax({
-    type: "DELETE",
-    url: `/cat/${taskId}`,
+    method: "DELETE",
+    url: `/todo/${taskId}`,
   })
     .then((response) => {
+      console.log("DELETE: ", response);
+      getTask();
+    })
+    .catch((err) => {
+      console.warn(err);
+    });
+}
+
+function updateToDoList() {
+  console.log("COMPLETE: ", completed);
+  const completed = {
+    completed: $(this).parent().data("completed"),
+  };
+  const taskId = $(this).parent().data("completed");
+
+  $.ajax({
+    method: "PUT",
+    url: `/todo/${taskId}`,
+    data: completed,
+  })
+    .then((response) => {
+      console.log("COMPLETE:", response);
       getTask();
     })
     .catch((err) => {
