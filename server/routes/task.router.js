@@ -23,7 +23,7 @@ router.post("/", (req, res) => {
   const queryText = `INSERT INTO "todo" ("task", "task completed") VALUES ($1, false);`;
 
   pool
-    .query(queryText, [req.body.name])
+    .query(queryText, [req.body.task])
     .then((response) => {
       console.log(response);
       res.sendStatus(201);
@@ -38,7 +38,7 @@ router.post("/", (req, res) => {
 router.put("/:id", (req, res) => {
   const taskId = req.params.id;
   const newTaskData = req.body;
-  const queryText = `UPDATE: "todo" SET "completed"=$1 WHERE id=$2;`;
+  const queryText = `UPDATE: "todo" SET "task completed"=$1 WHERE id=$2;`;
 
   pool
     .query(queryText, [newTaskData.taskCompleted, taskId])
