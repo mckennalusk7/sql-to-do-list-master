@@ -60,6 +60,7 @@ toDoRouter.put("/:id", (req, res) => {
 
 // DELETE
 toDoRouter.delete("/:id", (req, res) => {
+  console.log(req.params.id);
   const queryText = `DELETE FROM "todo" WHERE id=$1;`;
 
   pool

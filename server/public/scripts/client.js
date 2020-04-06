@@ -101,9 +101,9 @@ function saveTask(newTask) {
 }
 
 // render to DOM
-function renderTask(taskArray) {
+function renderTask() {
   $("#js-submit-task").empty();
-  for (let task of taskArray) {
+  for (let task of task) {
     let taskCompleted = `<button class="js-submit-task" data-id="${task.id}">Submit Task</button>`;
     if (task.taskCompleted === true) {
       taskCompleted = `<button class="js-submit-task hide" data-id="${task.id}">Submit Task</button>`;
@@ -113,7 +113,7 @@ function renderTask(taskArray) {
         <td>${task.task}</td>
         <td>${task.taskCompleted}</td>
         <td>${taskCompleted}</td>
-        <td><button class="js-btn-delete-task" data-id="${task.id}">Delete</button></td>
+        <<button class="js-btn-delete-task" data-id="${task.id}">Delete</button>
       </tr>
     `);
   }
