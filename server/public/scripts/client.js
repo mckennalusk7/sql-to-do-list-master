@@ -53,9 +53,9 @@ function postTask(dataForServer) {
 
 function updateTask() {
   let taskComplete = "";
-  let parentElement = $(this).parent();
+  let parentElement = $(this).parent().parent();
 
-  if (parentElement.data("complete") === "true") {
+  if (parentElement.data("complete") == true) {
     taskComplete = "false";
   } else {
     taskComplete = "true";
