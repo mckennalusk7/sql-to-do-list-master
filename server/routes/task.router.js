@@ -8,30 +8,24 @@ router.get("/", (req, res) => {
 
   pool
     .query(queryText)
-    .then((responseDB) => {
-      const dbRows = responseDB.rows;
-      console.log(dbRows);
-      res.send(dbRows);
+    .then((response) => {
+      res.send(response.rows);
     })
     .catch((err) => {
-      console.log("ERROR: NOT HERE", err);
+      console.warn(err);
       res.sendStatus(500);
     });
 });
 
 // POST
 router.post("/", (req, res) => {
-  const dataSentFromClient = req.body;
-
-  const queryText = `INSERT INTO "todo" ("task", "task completed") VALUES ($1);`;
+  console.log(req.body);
+  const queryText = `INSERT INTO "todo" ("task", "task completed") VALUES ($1, false);`;
 
   pool
-    .query(queryText, [
-      dataSentFromClient.task,
-      dataSentFromClient.taskCompleted,
-    ])
-    .then((responseDb) => {
-      console.log(responseDb);
+    .query(queryText, [req.body.name])
+    .then((response) => {
+      console.log(response);
       res.sendStatus(201);
     })
     .catch((err) => {

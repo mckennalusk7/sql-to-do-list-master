@@ -3,6 +3,6 @@
 CREATE TABLE "todo"
 (
     "id" SERIAL PRIMARY KEY,
-    "task" VARCHAR (120),
+    "task" VARCHAR (120) NOT NULL,
     "task completed" BOOLEAN
 );
