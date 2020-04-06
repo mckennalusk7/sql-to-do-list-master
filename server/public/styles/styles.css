@@ -58,6 +58,10 @@ td {
   border-radius: 3px;
 }
 
+.complete {
+  background-color: green;
+}
+
 button {
   background-color: rgb(3, 60, 74);
   color: whitesmoke;
@@ -68,5 +72,5 @@ button {
 }
 
 button:hover {
-  background-color: green;
+  background-color: rgb(72, 128, 248);
 }

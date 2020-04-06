@@ -3,9 +3,10 @@ $(document).ready(init);
 let task = [];
 
 function init() {
-  $("js-add-button-task").on("click", submitTask);
+  $("#js-add-button-task").on("click", submitTask);
   $(".js-output-task").on("click", ".js-btn-complete", updateTask);
-  // $(".js-output-task").on("click", "#js-submit-task", updateToDoList);
+  $(".js-output-task").on("click", ".js-btn-delete", deleteTask);
+
   getTask();
 }
 
@@ -13,14 +14,12 @@ function submitTask(event) {
   event.preventDefault();
 
   const dataForServer = {
-    name: $("#js-input-task").val(),
+    task: $("#js-input-task").val(),
   };
   postTask(dataForServer);
-  //  clear input values
-  clearTask();
 }
 
-// call to server to get completed tasks --- GETTING ERRORS!!!!!
+// call to server to get completed tasks
 function getTask() {
   $.ajax({
     type: "GET",
@@ -28,14 +27,14 @@ function getTask() {
   })
     .then((response) => {
       console.log(response);
+      renderTask(response);
     })
     .catch((err) => {
       console.warn(err);
-      renderTask(response);
     });
 }
 
-// Not sending to server
+// POST
 function postTask(dataForServer) {
   $.ajax({
     type: "POST",
@@ -82,21 +81,23 @@ function updateTask() {
     });
 }
 
-// function deleteTask() {
-//   const taskId = $(this).parent().data("id");
+function deleteTask() {
+  console.log(deleteTask);
+  let parentElement = $(this).parent().parent();
+  const id = parentElement.data("id");
 
-//   $.ajax({
-//     method: "DELETE",
-//     url: `/todo/${taskId}`,
-//   })
-//     .then((response) => {
-//       console.log("DELETE: ", response);
-//       getTask();
-//     })
-//     .catch((err) => {
-//       console.warn(err);
-//     });
-// }
+  $.ajax({
+    method: "DELETE",
+    url: `/todo/${id}`,
+  })
+    .then((response) => {
+      console.log("DELETE: ", response);
+      getTask();
+    })
+    .catch((err) => {
+      console.warn(err);
+    });
+}
 
 // render to DOM
 function renderTask(response) {
@@ -105,15 +106,13 @@ function renderTask(response) {
   for (let task of response) {
     $(".js-output-task").append(`
       <div data-complete=${task.complete} data-id= ${task.id}>
-        <span>${task.task} - <button class= "js-btn-complete"> Cha Ching</button> <button "js-btn-delete"> Delete</button>
+        <span>${task.task} - <button class= "js-btn-complete"> Cha Ching</button> <button class="js-btn-delete"> Delete</button>
       </div>
     `);
+
+    const newDiv = $(".js-output-task").children().last();
+    if (newDiv.data("complete") == true) {
+      newDiv.addClass("complete");
+    }
   }
 }
-// function saveTask(newTask) {
-//   console.log("in saveTask", newTask);
-// }
-
-// function clearTask() {
-//   $("#js-input-list").empty();
-// }
