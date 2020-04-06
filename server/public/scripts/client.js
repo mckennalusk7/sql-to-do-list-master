@@ -4,12 +4,8 @@ let task = [];
 
 function init() {
   $("#js-submit-task").on("submit", submitTask);
-  $("#js-task-completion").on("click", ".js-btn-delete-task", deleteTask);
-  $(".js-task-completion").on(
-    "click",
-    ".js-btn-completed-task",
-    updateToDoList
-  );
+  $("#js-Task-In").on("click", "#js-btn-delete-task", deleteTask);
+  $("#js-Task-In").on("click", "#js-Add-Button-task", updateToDoList);
   getTask();
 }
 
@@ -42,7 +38,7 @@ function postTask(task) {
     });
 }
 
-// call to server to get completed tasks
+// call to server to get completed tasks --- GETTING ERRORS!!!!!
 function getTask() {
   $.ajax({
     method: "GET",
