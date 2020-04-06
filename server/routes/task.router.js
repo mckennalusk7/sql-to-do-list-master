@@ -36,12 +36,13 @@ router.post("/", (req, res) => {
 
 // PUT --- Does this logic work???
 router.put("/:id", (req, res) => {
-  const taskId = req.params.id;
-  const newTaskData = req.body;
-  const queryText = `UPDATE "todo" SET "task completed"=$1 WHERE id=$2;`;
+  let newTaskData = false;
+  if (req.body.complete === "true") newTaskData = true;
+
+  const queryText = `UPDATE "todo" SET "task completed"=$1 WHERE "id"=$2;`;
 
   pool
-    .query(queryText, [newTaskData.taskCompleted, taskId])
+    .query(queryText, [newTaskData, req.params.id])
     .then((response) => {
       console.log(response);
       res.sendStatus(200); // OK
@@ -55,7 +56,7 @@ router.put("/:id", (req, res) => {
 // DELETE
 router.delete("/:id", (req, res) => {
   console.log(req.params.id);
-  const queryText = `DELETE FROM "todo" WHERE id=$1;`;
+  const queryText = `DELETE FROM "todo" WHERE "id"=$1;`;
 
   pool
     .query(queryText, [req.params.id])

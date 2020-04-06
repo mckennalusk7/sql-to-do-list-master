@@ -3,7 +3,7 @@ $(document).ready(init);
 let task = [];
 
 function init() {
-  $("#js-submit-task").on("submit", submitTask);
+  $("js-add-button-task").on("click", submitTask);
   $("#taskIn").on("click", "#js-btn-delete-task", deleteTask);
   $("#taskIn").on("click", "#js-submit-task", updateToDoList);
   getTask();
@@ -12,14 +12,15 @@ function init() {
 function submitTask(event) {
   event.preventDefault();
 
-  const taskInput = $("#js-input-list").val();
-
-  postTask(taskInput);
+  const dataForServer = {
+    name: $("#js-input-task").val(),
+  };
+  postTask(dataForServer);
   //  clear input values
   clearTask();
 }
 
-function postTask(task) {
+function postTask(dataForServer) {
   const dataForServer = {
     task: task,
   };
@@ -70,7 +71,7 @@ function deleteTask() {
     });
 }
 
-function updateToDoList() {
+function updateTask() {
   console.log("COMPLETE: ", completed);
   const completed = {
     completed: $(this).parent().data("completed"),
@@ -89,11 +90,6 @@ function updateToDoList() {
     .catch((err) => {
       console.warn(err);
     });
-}
-
-// save entered task
-function saveTask(newTask) {
-  console.log("in saveTask", newTask);
 }
 
 // render to DOM
