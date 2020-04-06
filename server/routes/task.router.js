@@ -1,9 +1,26 @@
 const express = require("express");
-const toDoRouter = express.Router();
+const router = express.Router();
 const pool = require("../modules/pool");
 
+// GET
+router.get("/", (req, res) => {
+  const queryText = `SELECT * FROM "todo" ORDER BY "id";`;
+
+  pool
+    .query(queryText)
+    .then((responseDB) => {
+      const dbRows = responseDB.rows;
+      console.log(dbRows);
+      res.send(dbRows);
+    })
+    .catch((err) => {
+      console.log("ERROR: NOT HERE", err);
+      res.sendStatus(500);
+    });
+});
+
 // POST
-toDoRouter.post("/", (req, res) => {
+router.post("/", (req, res) => {
   const dataSentFromClient = req.body;
 
   const queryText = `INSERT INTO "todo" ("task", "task completed") VALUES ($1);`;
@@ -23,25 +40,8 @@ toDoRouter.post("/", (req, res) => {
     });
 });
 
-// GET
-toDoRouter.get("/", (req, res) => {
-  const queryText = `SELECT * FROM "todo" ORDER BY "id";`;
-
-  pool
-    .query(queryText)
-    .then((responseDB) => {
-      const dbRows = responseDB.rows;
-      console.log(dbRows);
-      res.send(dbRows);
-    })
-    .catch((err) => {
-      console.log("ERROR: NOT HERE", err);
-      res.sendStatus(500);
-    });
-});
-
 // PUT
-toDoRouter.put("/:id", (req, res) => {
+router.put("/:id", (req, res) => {
   const taskId = req.params.id;
   const newTaskData = req.body;
   const queryText = `UPDATE: "todo" SET "completed"=$1 WHERE id=$2;`;
@@ -59,7 +59,7 @@ toDoRouter.put("/:id", (req, res) => {
 });
 
 // DELETE
-toDoRouter.delete("/:id", (req, res) => {
+router.delete("/:id", (req, res) => {
   console.log(req.params.id);
   const queryText = `DELETE FROM "todo" WHERE id=$1;`;
 
@@ -75,4 +75,4 @@ toDoRouter.delete("/:id", (req, res) => {
     });
 });
 
-module.exports = toDoRouter;
+module.exports = router;
