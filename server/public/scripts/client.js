@@ -105,9 +105,9 @@ function renderTask(response) {
 
   for (let task of response) {
     $(".js-output-task").append(`
-      <div data-complete=${task.complete} data-id= ${task.id}>
-        <span>${task.task} - <button class= "js-btn-complete"> Cha Ching</button> <button class="js-btn-delete"> Delete</button>
-      </div>
+    <div data-complete=${task.complete} data-id= ${task.id}>
+    <span>${task.task} - <button class= "js-btn-complete"> Cha Ching</button> <button class="js-btn-delete"> Delete</button>
+  </div>
     `);
 
     const newDiv = $(".js-output-task").children().last();
