@@ -34,20 +34,20 @@ router.post("/", (req, res) => {
     });
 });
 
-// PUT
+// PUT --- Does this logic work???
 router.put("/:id", (req, res) => {
   const taskId = req.params.id;
   const newTaskData = req.body;
-  const queryText = `UPDATE: "todo" SET "task completed"=$1 WHERE id=$2;`;
+  const queryText = `UPDATE "todo" SET "task completed"=$1 WHERE id=$2;`;
 
   pool
     .query(queryText, [newTaskData.taskCompleted, taskId])
-    .then((responseDb) => {
-      console.log(responseDb);
+    .then((response) => {
+      console.log(response);
       res.sendStatus(200); // OK
     })
     .catch((err) => {
-      console.log(`Error in completion: ${err}`);
+      console.warn(`Error in completion: ${err}`);
       res.sendStatus(500); //internal server error
     });
 });
