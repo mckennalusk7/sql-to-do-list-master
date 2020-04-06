@@ -4,8 +4,8 @@ let task = [];
 
 function init() {
   $("#js-submit-task").on("submit", submitTask);
-  $("#js-Task-In").on("click", "#js-btn-delete-task", deleteTask);
-  $("#js-Task-In").on("click", "#js-Add-Button-task", updateToDoList);
+  $("#taskIn").on("click", "#js-btn-delete-task", deleteTask);
+  $("#taskIn").on("click", "#js-submit-task", updateToDoList);
   getTask();
 }
 
@@ -99,10 +99,11 @@ function saveTask(newTask) {
 // render to DOM
 function renderTask() {
   $("#js-submit-task").empty();
+
   for (let task of task) {
     let taskCompleted = `<button class="js-submit-task" data-id="${task.id}">Submit Task</button>`;
     if (task.taskCompleted === true) {
-      taskCompleted = `<button class="js-submit-task hide" data-id="${task.id}">Submit Task</button>`;
+      taskCompleted = `<button class="js-submit-task" data-id="${task.id}">Submit Task</button>`;
     }
     $("#js-submit-task").append(`
       <tr>
